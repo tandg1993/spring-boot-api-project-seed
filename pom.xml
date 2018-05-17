@@ -10,6 +10,7 @@
     <packaging>jar</packaging>
 
     <properties>
+        <active>dev</active>
         <java.version>1.8</java.version>
     </properties>
 
@@ -105,21 +106,63 @@
     </dependencies>
 
     <build>
+
+        <finalName>seed</finalName>
+        <filters>
+            <filter>src/main/active/active-${active}.properties</filter>
+        </filters>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                    <include>**/*.properties</include>
+                    <include>**/*.ftl</include>
+                </includes>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
+            <!-- 构建忽略test-->
             <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.15</version>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                    <encoding>UTF-8</encoding>
+                    <skipTests>true</skipTests>
                 </configuration>
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>pre</id>
+            <properties>
+                <active>pre</active>
+            </properties>
+        </profile>
+        <profile>
+            <id>env</id>
+            <properties>
+                <active>env</active>
+            </properties>
+        </profile>
+
+    </profiles>
 
     <repositories>
         <repository>
