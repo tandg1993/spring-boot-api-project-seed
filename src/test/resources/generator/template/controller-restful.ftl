@@ -6,6 +6,8 @@ import ${basePackage}.model.${modelNameUpperCamel};
 import ${basePackage}.service.${modelNameUpperCamel}Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -17,6 +19,9 @@ import java.util.List;
 @RestController
 @RequestMapping("${baseRequestMapping}")
 public class ${modelNameUpperCamel}Controller {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Resource
     private ${modelNameUpperCamel}Service ${modelNameLowerCamel}Service;
 

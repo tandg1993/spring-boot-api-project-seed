@@ -137,4 +137,22 @@ public class User {
     public void setModifyUser(String modifyUser) {
         this.modifyUser = modifyUser;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", sex=" + sex +
+                ", createTime=" + createTime +
+                ", createUser='" + createUser + '\'' +
+                ", modifyTime=" + modifyTime +
+                ", modifyUser='" + modifyUser + '\'' +
+                '}';
+    }
+
+    public static void main(String[] args) {
+        System.out.println(System.currentTimeMillis());
+    }
 }

@@ -5,26 +5,33 @@ import com.company.project.model.User;
 import com.company.project.service.UserService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
-* Created by tan.dg on 2018/05/17.
+* Created by tan.dg on 2018/05/18.
 */
 @RestController
 @RequestMapping("/user")
 public class UserController {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Resource
     private UserService userService;
 
     @PostMapping("/add")
     public Result add(User user) {
         userService.save(user);
+        logger.info("INSERT RETURN OBJECT , {}", user.toString());
         return ResultGenerator.genSuccessResult();
     }
 
