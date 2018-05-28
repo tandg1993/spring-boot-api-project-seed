@@ -1,8 +1,11 @@
 package com.company.project.web;
+import com.company.project.core.ProjectConstant;
 import com.company.project.core.Result;
 import com.company.project.core.ResultGenerator;
+import com.company.project.core.SQLConstant;
 import com.company.project.model.User;
 import com.company.project.service.UserService;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
@@ -16,6 +19,7 @@ import tk.mybatis.mapper.entity.Condition;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
+import java.text.MessageFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -67,10 +71,14 @@ public class UserController {
     @PostMapping("/condition")
     public Result condition(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "0") Integer size, User user) {
         PageHelper.startPage(page, size);
-        Condition condition = new Condition(User.class);
+        Condition condition = new Condition(User.class, false, false);
         Example.Criteria criteria = condition.createCriteria();
+        criteria.andEqualTo("sex", user.getSex());
         if (StringUtils.isNotBlank(user.getName())) {
-            criteria.andCondition("name", user.getName());
+            criteria.andLike("name", SQLConstant.selectLikeAllFormat(user.getName()));
+        }
+        if (StringUtils.isNotBlank(user.getCreateUser())) {
+            criteria.andLike("createUser", SQLConstant.selectLikeAllFormat(user.getCreateUser()));
         }
         condition.orderBy("id").desc();
         List<User> list = userService.findByCondition(condition);
